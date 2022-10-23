@@ -1,0 +1,501 @@
+#GROUP 3 R Code - Author: Jack Laskey
+
+setwd("//campus/home/home2016/b6034261/Research Methods")
+
+data <- read.csv("Data set - car price-1.csv")
+summary(data)
+str(mtcars)
+summary(as.factor(data$transmission))
+summary(as.factor(data$fuel_type))
+
+install.packages("ggplot2")
+
+library(ggplot2)
+
+#Descriptive Statistics Graphs
+
+Age_Price <- ggplot(data = data, aes(x = age, y = price)) + 
+  geom_smooth(colour = "black") +
+  geom_point(size = 2, colour = "black") +
+  scale_fill_brewer() + 
+  labs(x = "Age (Years)",
+     y = "Price (£)") +
+  ggtitle("Price against Age") + 
+  theme(
+    plot.title=element_text( hjust=0.5, vjust=0.5, face='bold')
+  )
+ggsave(Age_Price, filename = "Age-Price.png")
+
+Age_Price <- ggplot(data = data, aes(x = age, y = price)) + 
+  scale_x_log10() + 
+  geom_smooth(colour = "black") +
+  geom_point(size = 2, colour = "black") + 
+  labs(x = "Log of Age (Years)",
+       y = "Price (£)") + 
+  ggtitle("Price against Log10(Age)") + 
+  theme(
+    plot.title=element_text( hjust=0.5, vjust=0.5, face='bold')
+  )
+ggsave(Age_Price, filename = "Log(age)-Price.png")
+
+Age_Emissions <- ggplot(data = data, aes(x = age, y = CO2_em_gkm)) + 
+  geom_smooth(colour = "black") +
+  geom_point(size = 2, colour = "black") +
+  scale_fill_brewer() + 
+  labs(x = "Age (Years)",
+       y = "Average CO2 Emissions (g/km)") + 
+  ggtitle("CO2 Emissions against Age") + 
+  theme(
+    plot.title=element_text( hjust=0.5, vjust=0.5, face='bold')
+  )
+ggsave(Age_Emissions, filename = "Age-emissions.png")
+
+Luggage_Price <- ggplot(data = data, aes(x = luggage, y = price)) + 
+  geom_smooth(colour = "black") +
+  geom_point(size = 2, colour = "black") +
+  scale_fill_brewer() + 
+  labs(x = "Luggage Capacity (cc)",
+       y = "Price (£)") + 
+  ggtitle("Price against Luggage Capacity") + 
+  theme(
+    plot.title=element_text( hjust=0.5, vjust=0.5, face='bold')
+  )
+ggsave(Luggage_Price, filename = "luggage-price.png")
+
+Engine_Size_Price <- ggplot(data = data, aes(x = engine_size_cc, y = price)) + 
+  geom_smooth(colour = "black") +
+  geom_point(size = 2, colour = "black") +
+  scale_fill_brewer() + 
+  labs(x = "Engine Size (cc)",
+       y = "Price (£)") + 
+  ggtitle("Price against Engine Size") + 
+  theme(
+    plot.title=element_text( hjust=0.5, vjust=0.5, face='bold')
+  )
+ggsave(Engine_Size_Price, filename = "Engine size - price.png")
+
+Age_Engine <- ggplot(data = data, aes(x = age, y = engine_size_cc)) + 
+  geom_count(aes(color = ..n.., size = ..n..)) +
+  guides(color = 'legend') +  
+  scale_fill_brewer() + 
+  labs(x = "Age (years)",
+         y = "Engine Size (cc)") + 
+  ggtitle("Engine Size against Age") + 
+  theme(plot.title=element_text( hjust=0.5, vjust=0.5, face='bold'))
+ggsave(Age_Engine, filename = "Age-Engine.png")
+
+Engine_Emissions <- ggplot(data = data, aes(x = engine_size_cc, y = CO2_em_gkm)) + 
+  geom_smooth(colour = "black") +
+  geom_point(size = 2, colour = "black") +
+  scale_fill_brewer() +
+  labs(x = "Engine Size (cc)",
+       y = "Average CO2 Emissions (g/km)") + 
+  ggtitle("Emissions against Engine Size") + 
+  theme(plot.title=element_text( hjust=0.5, vjust=0.5, face='bold'))
+ggsave(Engine_Emissions, filename = "Engine size - Emissions.png")
+
+Emissions_Price <- ggplot(data = data, aes(x = CO2_em_gkm, y = price)) + 
+  geom_smooth(colour = "black") +
+  geom_point(size = 2, colour = "black") +
+  theme_minimal() +
+  labs(x = "Average CO2 Emissions (g/km)",
+       y = "Price (£)") + 
+  ggtitle("Price against Average CO2 Emissions") + 
+  theme(plot.title=element_text( hjust=0.5, vjust=0.5, face='bold'))
+ggsave(Emissions_Price, filename = "Emissions-Price.png")
+
+
+Power_engine_size <- ggplot(data = data, aes(x = power_bhp, y = engine_size_cc)) + 
+  geom_smooth(colour = "black") +
+  geom_point(size = 2, colour = "black") +
+  scale_fill_brewer() + 
+  labs(x = "Power (BHP)",
+       y = "Engine Size (cc)") + 
+  ggtitle("Engine Size against Pwer") + 
+  theme(plot.title=element_text( hjust=0.5, vjust=0.5, face='bold'))
+ggsave(Power_engine_size, filename = "Power-engine size.png")
+
+Power_Price <- ggplot(data = data, aes(x = power_bhp, y = price)) + 
+  geom_smooth(colour = "black") +
+  geom_point(size = 2, colour = "black") +
+  scale_fill_brewer() + 
+  labs(x = "Power (BHP)",
+       y = "Price (£)") + 
+  ggtitle("Price against Power") + 
+  theme(plot.title=element_text( hjust=0.5, vjust=0.5, face='bold'))
+ggsave(Power_Emissions, filename = "Power-emissions.png")
+
+Top_Speed_Price <- ggplot(data = data, aes(x = top_speed, y = price)) + 
+  geom_smooth(colour = "black") +
+  geom_point(size = 2, colour = "black") +
+  scale_fill_brewer() + 
+  labs(x = "Top Speed (MPH)",
+       y = "Price (£)") + 
+  ggtitle("Price against Top Speed") + 
+  theme(plot.title=element_text( hjust=0.5, vjust=0.5, face='bold'))
+ggsave(Top_Speed_Price, filename = "Top speed price.png")
+
+Fuel_Type_Price <- ggplot(data = data, aes(x = fuel_type, y = price)) + 
+  geom_point(size = 2, colour = "black") +
+  geom_boxplot(size = 0.3, alpha = 0.5, colour = "black") +
+  theme(axis.line = element_line(colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank()) + 
+  facet_grid(~tranmission) +
+  facet_grid(~transmission) + 
+  labs(x = "Fuel Type",
+       y = "Price (£)") + 
+  ggtitle("Price sorted by Fuel Type and Transmission") + 
+  theme(plot.title=element_text( hjust=0.5, vjust=0.5, face='bold'))
+ggsave(Fuel_Type_Price, filename = "fuel type-transmission price.png")
+
+
+#Unused descriptive graphs as they do not tell us much useful information,
+#Maybe because I am unsure how best to use GGPlot
+
+#Doors_Price <- ggplot(data = data, aes(x = doors, y = price)) + 
+  #geom_smooth(colour = "black") +
+  #geom_point(size = 2, colour = "black") +
+  #scale_fill_brewer()
+
+#Seats_Price <- ggplot(data = data, aes(x = seats, y = price)) + 
+  #geom_smooth(colour = "black") +
+  #geom_point(size = 2, colour = "black") +
+  #scale_fill_brewer()
+
+#Fuel_Type_Price <- ggplot(data = data, aes(x = fuel_type, y = price)) + 
+  #geom_point() +
+  #theme_classic()
+
+#Transmission_Price <- ggplot(data = data, aes(x = transmission, y = price)) + 
+  #geom_point() +
+  #theme_classic()
+
+################################################################################
+
+#PCA
+install.packages("psych")
+library(psych)
+
+#Simplify dataset to remove ordinal data (Car Model, Fuel Type and Transmission)
+DataContinuous <- subset(data, select = -c(car_model, price, transmission, fuel_type))
+
+#Run a correlation plot of the remaining variables
+DataCor <- cor.plot(DataContinuous)
+
+#Hard to see what factors should be used
+#Run KMO and Bartlett test
+
+KMO(DataCor)
+# Overall MSA of >0.6 is acceptable, we have value of 0.64, can proceed
+
+cortest.bartlett(DataCor, n = nrow(DataContinuous))
+#Looking for p-value less than 0.05 - also matches so can proceed
+
+#Both tests indicate there is some value in factor analysis
+#But from Corplot hard to see which variables can be simplified into factors
+
+fa.parallel(DataCor, n.obs = nrow(DataContinuous), fa = "pc")
+
+fitPCA <- fa(DataCor, nfactors = 3, rotate = "none", fm = "minres")
+
+#From the scree plot, 3 or 4 factors looks most useful
+DataContinuousPCA3 = principal(DataContinuous, 
+                               nfactors = 3, 
+                               rotate = "none", 
+                               scores = TRUE)
+
+DataContinuousPCA3
+print(DataContinuousPCA3$loadings,cutoff = 0.5)
+#The loadings show that 3 factors was a good choice, as there is no overlap
+#between factors
+
+biplot(DataContinuousPCA3)
+
+#Try with 2 and 4 factors to check that 3 is definitely suitable
+DataContinuousPCA2 = principal(DataContinuous, 
+                               nfactors = 2 , 
+                               rotate = "none", 
+                               scores = TRUE)
+
+DataContinuousPCA2
+biplot(DataContinuousPCA2)
+print(DataContinuousPCA2$loadings,cutoff = 0.5)
+
+DataContinuousPCA4 = principal(DataContinuous, 
+                               nfactors = 4 , 
+                               rotate = "none", 
+                               scores = TRUE)
+
+DataContinuousPCA4
+biplot(DataContinuousPCA4)
+print(DataContinuousPCA4$loadings,cutoff = 0.5)
+
+#Total explained variance is not high, luggage, seats and doors are uncorrelated
+#to anything else, so should clean the data up and remove these
+
+#########################################################################
+#RUN AGAIN WITHOUT LUGGAGE, DOORS OR SEATS
+DataSimplified <- subset(data, select = -c(car_model, price, 
+                                           luggage, seats, doors,
+                                           transmission, fuel_type))
+head(DataSimplified)
+DataCorSimple <- cor.plot(DataSimplified)
+KMO(DataCorSimple)
+cortest.bartlett(DataCorSimple, n = nrow(DataSimplified))
+fa.parallel(DataCorSimple, n.obs = nrow(DataSimplified), fa = "pc")
+fitPCASimple <- fa(DataCorSimple, nfactors = 3, rotate = "none", fm = "minres")
+DataSimplifiedPCA3 = principal(DataSimplified, 
+                               nfactors = 3, 
+                               rotate = "none", 
+                               scores = TRUE)
+DataSimplifiedPCA3
+print(DataSimplifiedPCA3$loadings,cutoff = 0.5)
+fa.diagram(DataSimplifiedPCA3)
+
+################################################################################
+
+#TRY SCALING DATA TO SEE IF ANY IMPROVEMENT
+
+install.packages("dplyr")
+library(dplyr)
+DataSimplified2 <- DataSimplified %>% mutate_at(c('age', 'power_bhp',
+                                                  'accel_0_60', 'engine_size_cc',
+                                                  'top_speed', 'CO2_em_gkm'), 
+                                                ~(scale(.) %>% as.vector))
+head(DataSimplified2)
+#run PCA again
+library(psych)
+DataCor2 <- cor.plot(DataSimplified2)
+KMO(DataCor2)
+cortest.bartlett(DataCor2, n = nrow(DataSimplified2))
+fa.parallel(DataCor2, n.obs = nrow(DataSimplified2), fa = "pc")
+fitPCA2 <- fa(DataCor2, nfactors = 3, rotate = "none", fm = "minres")
+SimplifiedPCA3 = principal(DataSimplified2, 
+                               nfactors = 3, 
+                               rotate = "none", 
+                               scores = TRUE)
+SimplifiedPCA3
+print(SimplifiedPCA3$loadings,cutoff = 0.5)
+fa.diagram(SimplifiedPCA3)
+#NO IMPROVEMENT FROMSCALING VISIBLE
+
+################################################################################
+
+#Continue with original 3 factor PCA from DataSimplified
+
+CombinedData = cbind(data, DataSimplifiedPCA3$scores)
+head(CombinedData)
+
+#plot relationships between different factors, with price as the colour
+require(ggplot2)
+
+ggplot(data = CombinedData, aes(x = PC1, y = PC2, color = price)) +
+  geom_point() +
+  stat_ellipse() +
+  theme_bw()
+
+ggplot(data = CombinedData, aes(x = PC1, y = PC3, color = price)) +
+  geom_point() +
+  stat_ellipse() +
+  theme_bw()
+
+ggplot(data = CombinedData, aes(x = PC2, y = PC3, color = price)) +
+  geom_point() +
+  stat_ellipse() +
+  theme_bw()
+
+#Looking at the plots, it is clear that the more expensive cars are in the same
+#region of each plot 
+
+################################################################################
+
+#EFA - DataContinuous
+DataCorEFA = cor(DataContinuous)
+corPlot(DataCorEFA)
+cortest.bartlett(DataCorEFA, n = nrow(DataContinuous))
+KMO(DataCorEFA)
+fa.parallel(DataContinuous)
+
+#3 or 4 factors look reasonable again from the Scree plot, 
+fitEFA4 = fa(DataCorEFA, nfactors = 4, rotate = "none", fm = "minres")
+fitEFA4
+print(fitEFA4$loadings,cutoff = 0.3)
+fa.diagram(fitEFA4)
+#factor number 4 explains none of the variables, so 4 is too many factors
+
+fitEFA3 = fa(DataCorEFA, nfactors = 3, rotate = "none", fm = "minres")
+fitEFA3
+print(fitEFA3$loadings,cutoff = 0.5)
+fa.diagram(fitEFA3)
+#3 factors doesnt explain more variance, but has better split among the factors
+
+fitEFAVarimax = fa(DataCorEFA, nfactors = 3, rotate = "varimax", fm = "minres")
+fitEFAVarimax
+print(fitEFAVarimax$loadings,cutoff = 0.5)
+fa.diagram(fitEFAVarimax)
+#No more explained variance, but variables better split among factors
+#Still not a great result either way
+
+##############################################################################
+
+#Try with DataSimplified to see if there are improvements from removing 
+#luggage, seats and doors
+
+DataCorEFA2 = cor(DataSimplified)
+corPlot(DataCorEFA2)
+cortest.bartlett(DataCorEFA2, n = nrow(DataSimplified))
+KMO(DataCorEFA2)
+fa.parallel(DataSimplified)
+
+#3 or 4 factors look reasonable again from the Scree plot, 
+simplifiedEFA4 = fa(DataCorEFA2, nfactors = 4, rotate = "none", fm = "minres")
+simplifiedEFA4
+print(simplifiedEFA4$loadings, cutoff = 0.3)
+fa.diagram(simplifiedEFA4)
+#factor number 4 explains none of the variables again, so 4 is still too many factors
+
+simplifiedEFA3 = fa(DataCorEFA2, nfactors = 3, rotate = "none", fm = "minres")
+simplifiedEFA3
+print(simplifiedEFA3$loadings,cutoff = 0.5)
+fa.diagram(simplifiedEFA3)
+#3 factors explains more variance than 4, so 3 is better, next try rotation
+
+simplifiedEFAVarimax = fa(DataCorEFA2, nfactors = 3, rotate = "varimax", fm = "minres")
+simplifiedEFAVarimax
+print(simplifiedEFAVarimax$loadings,cutoff = 0.5)
+fa.diagram(simplifiedEFAVarimax)
+#with the rotation, better distribution of the variables among the factors
+#higher overall loadings on the factors
+#this is a good result
+
+#Print loadings again to compare
+print(simplifiedEFAVarimax$loadings)
+print(simplifiedEFA3$loadings)
+#Better split of loadings between factors, all variables of one factor that
+#they are more strongly related to
+
+library(psych)
+scores <- factor.scores(DataSimplified, simplifiedEFAVarimax, method = "Anderson")
+head(scores)
+
+EFAScores <- scores$scores
+
+write.csv(EFAScores,"H:/EFAScores.csv", row.names = FALSE)
+
+################################################################################
+#' CODE BELOW HERE WAS IN AN ATTEMPT TO DO THE MODELLING IN R,
+#' THIS WASN'T SUCCESSFUL AND THE MODELLING WAS DONE IN EXCEL, BUT I HAVE KEPT IT
+#' IN AS IT WAS STILL USEFUL
+
+install.packages("dplyr")
+library(dplyr)
+Data2 <- data %>% mutate (fuel_type=recode(fuel_type, 
+                                           'Petrol' = '1',
+                                           'Diesel' = '2',
+                                           'Petrol/LPG' = '3'))
+Data3 <- Data2 %>% mutate (transmission=recode(transmission, 
+                                               'Manual' = '0',
+                                               'Automatic' = '1'))
+#creating summary table for power sorted by Fuel Type and Transmission
+Power <- data %>% select(power_bhp)
+
+Power_Summary <- Data2 %>% group_by(fuel_type, transmission) %>% summarise(Mean_Emissions = mean(power_bhp),
+                                        SD_Power = sd(power_bhp),
+                                        Maximum = max(power_bhp),
+                                        Sample_Size = n())
+
+#creating summary table for CO2 emissions sorted by Fuel Type and Transmission
+Emissions <- data %>% select(CO2_em_gkm)
+
+Emissions_Summary <- Data2 %>% group_by(fuel_type, transmission) %>% summarise(Mean_Emissions = mean(CO2_em_gkm),
+                                                                           SD_Power = sd(CO2_em_gkm),
+                                                                           Maximum = max(CO2_em_gkm),
+                                                                           Avg_Engine_Size = mean(engine_size_cc),
+                                                                           Sample_Size = n())
+
+#######################################################################################
+
+data[2,8]
+
+ggplot(data = data, aes(x = age, y = price)) + geom_point()
+
+################################################################################
+#MODEL 1
+#linear model between price and age 
+
+m1 = lm(price ~ age, data = data)
+summary(m1)
+
+# linear model isnt the right fit so need to fit model to descriptive graph shape - lm(y ~ x, data = data)
+m2 = lm(price ~ log10(age), data = data)
+summary(m2)
+coef(m2)
+
+m3 = lm(price ~ log(age), data = data)
+summary(m3)
+coef(m3)
+
+ggplot(data = data, aes(x = age, y = price)) + 
+  geom_smooth(colour = "black") +
+  geom_point(size = 2, colour = "black") +
+  scale_fill_brewer()
+
+#m2.5 = lm(age ~ log(price), data = data)
+#summary(m2.5)
+#coef(m2.5)
+
+#model 1 
+
+options(max.print=1000000)
+
+#Testing some models relating to price
+
+#to find p values for the relationships between variables
+
+#Price against age on its own
+AnovaAgePrice <- aov(data$price ~ data$age)
+summary(AnovaAgePrice)
+
+################################################################################
+#Model 2
+#All variables v price without any interactions
+
+#Simplify dataset to remove ordinal data (Car Model, Fuel Type and Transmission)
+DataContinuous <- subset(data, select = -c(car_model, transmission, fuel_type))
+
+#Do ANOVA analysis of all variables against age not including any relationships
+AnovaAllVariables <- aov(data$price ~ data$age + data$CO2_em_gkm + 
+                           data$power_bhp + data$accel_0_60 + data$luggage + 
+                           data$engine_size_cc + data$doors + data$seats + 
+                           data$top_speed)
+summary(AnovaAllVariables)
+coef(AnovaAllVariables)
+write.csv(summary(AnovaAllVariables))
+
+#Do ANOVA analysis of all variables with acceleration scaled(?)
+AnovaAllVariables2 <- aov(data$price ~ data$age + data$CO2_em_gkm + 
+                            data$power_bhp + scale(data$accel_0_60) + 
+                            data$luggage + data$engine_size_cc + data$doors + 
+                            data$seats + data$top_speed)
+summary(AnovaAllVariables2)
+
+
+################################################################################
+#Model 3
+#All variables v price with all interactions included
+
+#ANOVA analysis with interactions between variables includede
+AnovaInteractions <- aov(data$price ~ data$age * data$CO2_em_gkm * 
+                           data$power_bhp * data$accel_0_60 * data$luggage * 
+                           data$engine_size_cc * data$doors * data$top_speed)
+summary(AnovaInteractions)
+coef(AnovaInteractions)
+
+write.csv(AnovaAllVariables)
+
+################################################################################
+
+#Author: Jack Laskey
